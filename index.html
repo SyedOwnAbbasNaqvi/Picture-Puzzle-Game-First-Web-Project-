@@ -106,3 +106,76 @@
     </button>
 
   </section>
+    <main class="game-layout">
+
+    <section class="piece-sidebar">
+
+      <h2>🧩 Puzzle Pieces</h2>
+
+      <div id="pieceTray"></div>
+
+    </section>
+
+    <section id="puzzleBoard"></section>
+
+    <aside class="sidebar">
+
+      <h2>🖼 Reference Image</h2>
+
+      <img id="referenceImage">
+
+      <div class="stats">
+
+        <p>
+          ⏱ Time:
+          <span id="timer">0</span>s
+        </p>
+
+        <p>
+          🎯 Moves:
+          <span id="moves">0</span>
+        </p>
+
+        <p>
+          ⭐ Progress:
+          <span id="progress">0</span>%
+        </p>
+
+      </div>
+
+      <div class="rules">
+
+        <h3>Game Rules</h3>
+
+        <ul>
+          <li>Drag puzzle pieces</li>
+          <li>Drop into correct cells</li>
+          <li>Wrong pieces can move again</li>
+          <li>Complete puzzle to win</li>
+        </ul>
+
+      </div>
+
+      <div class="leaderboard">
+
+        <h3>🏆 Leaderboard</h3>
+
+        <div id="leaderboardList"></div>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+</div>
+
+<canvas
+id="hiddenCanvas"
+style="display:none;">
+</canvas>
+
+<script src="app.js"></script>
+
+</body>
+</html>
