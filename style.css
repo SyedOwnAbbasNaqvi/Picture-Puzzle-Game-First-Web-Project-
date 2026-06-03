@@ -115,3 +115,291 @@ h1{
 
   margin-bottom:15px;
 }
+
+/* TOP CONTROLS */
+
+.top-controls{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:15px;
+
+  padding:25px;
+
+  margin-bottom:35px;
+
+  border-radius:20px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(15px);
+}
+
+/* IMAGES */
+
+.saved-images{
+
+  display:flex;
+
+  gap:12px;
+}
+
+.saved-img{
+
+  width:75px;
+
+  height:75px;
+
+  object-fit:cover;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  border:3px solid transparent;
+
+  transition:0.3s;
+}
+
+.saved-img:hover{
+
+  transform:scale(1.08);
+
+  border-color:#00d4ff;
+}
+
+.active-image{
+
+  border-color:#ffd23f !important;
+}
+
+/* INPUTS */
+
+input,
+select,
+button{
+
+  padding:14px 18px;
+
+  border:none;
+
+  border-radius:12px;
+
+  font-size:15px;
+}
+
+input,
+select{
+
+  background:
+  rgba(255,255,255,0.12);
+
+  color:white;
+
+  border:2px solid
+  rgba(255,255,255,0.15);
+}
+
+button{
+
+  background:
+  linear-gradient(
+    45deg,
+    #00d4ff,
+    #0099cc
+  );
+
+  color:white;
+
+  cursor:pointer;
+}
+
+/* FILE BUTTON */
+
+#uploadInput{
+
+  width:220px;
+
+  cursor:pointer;
+}
+
+#uploadInput::file-selector-button{
+
+  background:
+  linear-gradient(
+    45deg,
+    #ffd23f,
+    #ffb703
+  );
+
+  color:#111;
+
+  border:none;
+
+  padding:10px 15px;
+
+  border-radius:10px;
+
+  margin-right:10px;
+
+  cursor:pointer;
+}
+
+/* VALIDATION */
+
+.form-group{
+
+  display:flex;
+
+  flex-direction:column;
+}
+
+#nameError{
+
+  color:#ff6b6b;
+
+  margin-top:5px;
+
+  font-size:14px;
+}
+
+/* GAME LAYOUT */
+
+.game-layout{
+
+  display:grid;
+
+  grid-template-columns:
+  300px auto 340px;
+
+  gap:25px;
+}
+
+/* LEFT SIDEBAR */
+
+.piece-sidebar{
+
+  background:
+  linear-gradient(
+    145deg,
+    #1c1735,
+    #241d45
+  );
+
+  padding:22px;
+
+  border-radius:22px;
+}
+
+.piece-sidebar h2{
+
+  text-align:center;
+
+  margin-bottom:20px;
+
+  color:#ffd23f;
+}
+
+/* PIECE TRAY */
+
+#pieceTray{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(2,1fr);
+
+  gap:14px;
+
+  justify-items:center;
+
+  max-height:700px;
+
+  overflow-y:auto;
+}
+
+/* PIECES */
+
+.piece{
+
+  width:100px;
+
+  height:100px;
+
+  border-radius:12px;
+
+  cursor:grab;
+
+  background-size:cover;
+
+  background-position:center;
+
+  border:3px solid
+  rgba(255,255,255,0.18);
+
+  transition:0.3s;
+}
+
+.piece:hover{
+
+  transform:scale(1.08);
+
+  border-color:#00d4ff;
+}
+
+.piece.correct{
+
+  border-color:#4ade80;
+}
+
+/* BOARD */
+
+#puzzleBoard{
+
+  display:grid;
+
+  gap:4px;
+
+  justify-content:center;
+
+  align-content:center;
+
+  padding:18px;
+
+  border-radius:22px;
+
+  background:
+  linear-gradient(
+    145deg,
+    #1e1b38,
+    #2a2748
+  );
+}
+
+/* CELLS */
+
+.cell{
+
+  width:100px;
+
+  height:100px;
+
+  border-radius:12px;
+  background:
+  rgba(255,255,255,0.08);
+  border:3px solid
+  rgba(255,255,255,0.18);
+  transition:0.3s;
+}
+.cell.drag-over{
+  border-color:#00d4ff;
+  background:
+  rgba(0,212,255,0.25);
+}
