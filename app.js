@@ -163,3 +163,242 @@ function startTimer(){
     timer++;
     timerEl.textContent = timer;},1000);
 }
+
+/* =========================
+   CREATE BOARD
+========================= */
+
+function createBoard(){
+
+  board.innerHTML = "";
+
+  board.style.gridTemplateColumns =
+  `repeat(${gridSize},100px)`;
+
+  boardCells = [];
+
+  for(
+    let i = 0;
+    i < gridSize * gridSize;
+    i++
+  ){
+
+    const cell =
+    document.createElement("div");
+
+    cell.classList.add("cell");
+
+    cell.dataset.index = i;
+
+    cell.addEventListener(
+      "dragover",
+      handleDragOver
+    );
+
+    cell.addEventListener(
+      "dragleave",
+      handleDragLeave
+    );
+
+    cell.addEventListener(
+      "drop",
+      handleDrop
+    );
+
+    board.appendChild(cell);
+
+    boardCells.push(cell);
+  }
+}
+
+/* =========================
+   GENERATE PIECES
+========================= */
+
+function generatePieces(){
+
+  tray.innerHTML = "";
+
+  const image =
+  new Image();
+
+  image.src =
+  currentImage;
+
+  image.onload = () => {
+
+    const size = 500;
+
+    canvas.width = size;
+
+    canvas.height = size;
+
+    ctx.clearRect(
+      0,
+      0,
+      size,
+      size
+    );
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      size,
+      size
+    );
+
+    const pieceSize =
+    size / gridSize;
+
+    const pieces = [];
+
+    for(
+      let row = 0;
+      row < gridSize;
+      row++
+    ){
+
+      for(
+        let col = 0;
+        col < gridSize;
+        col++
+      ){
+
+        const pieceCanvas = document.createElement(
+          "canvas"
+        );
+        pieceCanvas.width =pieceSize;
+        pieceCanvas.height =pieceSize;
+        const pctx = pieceCanvas.getContext("2d");
+        pctx.drawImage(
+          canvas,
+
+          col * pieceSize,
+          row * pieceSize,
+
+          pieceSize,
+          pieceSize,
+
+          0,
+          0,
+
+          pieceSize,
+          pieceSize
+        );
+
+        const piece =
+        document.createElement(
+          "div"
+        );
+
+        piece.classList.add(
+          "piece"
+        );
+
+        const correctIndex =row * gridSize + col;
+
+        piece.dataset.correctIndex =
+        correctIndex;
+
+        piece.id =
+        `piece-${correctIndex}`;
+
+        piece.draggable = true;
+
+        piece.style.backgroundImage =
+        `url(${pieceCanvas.toDataURL()})`;
+
+        piece.addEventListener(
+          "dragstart",
+          handleDragStart
+        );
+
+        pieces.push(piece);
+      }
+    }
+
+    shuffleArray(pieces);
+
+    pieces.forEach(piece => {
+
+      tray.appendChild(piece);
+
+    });
+  };
+}
+
+/* =========================
+   SHUFFLE
+========================= */
+
+function shuffleArray(array){
+
+  for(
+    let i = array.length - 1;
+    i > 0;
+    i--
+  ){
+
+    const j =
+    Math.floor(
+      Math.random() * (i + 1)
+    );
+
+    [array[i],array[j]] =
+    [array[j],array[i]];
+  }
+}
+
+/* =========================
+   DRAG EVENTS
+========================= */
+
+function handleDragStart(e){
+
+  e.dataTransfer.setData(
+    "text/plain",
+    e.target.id
+  );
+}
+
+function handleDragOver(e){
+
+  e.preventDefault();
+
+  e.currentTarget.classList.add(
+    "drag-over"
+  );
+}
+
+function handleDragLeave(e){
+
+  e.currentTarget.classList.remove(
+    "drag-over"
+  );
+}
+/* =========================
+   DROP EVENT
+========================= */
+
+function handleDrop(e){
+  e.preventDefault();
+  const cell = e.currentTarget;
+  cell.classList.remove(
+    "drag-over"
+  );
+  const pieceId = e.dataTransfer.getData( "text/plain");
+  const draggedPiece =document.getElementById(pieceId);
+  if(!draggedPiece){
+    return;
+  }
+  const existingPiece =cell.querySelector(".piece");
+  if(existingPiece){
+    tray.appendChild( existingPiece);
+  }
+  cell.innerHTML = "";
+  cell.appendChild( draggedPiece );
+  moves++;
+  movesEl.textContent = moves;
+checkAllPieces();
+}
