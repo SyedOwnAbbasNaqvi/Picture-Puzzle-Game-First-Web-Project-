@@ -402,3 +402,230 @@ function handleDrop(e){
   movesEl.textContent = moves;
 checkAllPieces();
 }
+/* =========================
+   CHECK PIECES
+========================= */
+
+function checkAllPieces(){
+
+  correctCount = 0;
+
+  boardCells.forEach(cell => {
+
+    const piece =
+    cell.querySelector(
+      ".piece"
+    );
+
+    if(!piece){
+
+      return;
+    }
+
+    const cellIndex =
+    parseInt(
+      cell.dataset.index
+    );
+
+    const correctIndex =
+    parseInt(
+      piece.dataset.correctIndex
+    );
+
+    if(cellIndex === correctIndex){
+
+      piece.classList.add(
+        "correct"
+      );
+
+      correctCount++;
+
+    }else{
+
+      piece.classList.remove(
+        "correct"
+      );
+    }
+  });
+
+  updateProgress();
+
+  checkWin();
+}
+
+/* =========================
+   UPDATE PROGRESS
+========================= */
+
+function updateProgress(){
+
+  const total =
+  gridSize * gridSize;
+
+  const progress =
+  Math.round(
+    (correctCount / total) * 100
+  );
+
+  progressEl.textContent =
+  progress;
+}
+
+/* =========================
+   CHECK WIN
+========================= */
+
+async function checkWin(){
+
+  const total =
+  gridSize * gridSize;
+
+  if(correctCount === total){
+
+    clearInterval(interval);
+
+    try{
+
+      await saveScore(
+
+        playerNameInput.value,
+
+        timer,
+
+        moves
+      );
+
+      await showLeaderboard();
+
+      setTimeout(() => {
+
+        alert(
+          `🎉 Puzzle Completed!\n\nTime: ${timer}s\nMoves: ${moves}`
+        );
+
+      },300);
+
+    }catch(error){
+
+      document.getElementById(
+        "errorMessage"
+      ).textContent =
+      error.message;
+    }
+  }
+}
+
+/* =========================
+   SAVE SCORE
+========================= */
+
+async function saveScore(
+  name,
+  time,
+  moves
+){
+
+  try{
+
+    const response =
+    await fetch(API_URL,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        playerName:name,
+
+        difficulty:
+        `${gridSize}x${gridSize}`,
+
+        time,
+
+        moves,
+
+        date:new Date()
+        .toLocaleDateString()
+      })
+    });
+
+    if(!response.ok){
+
+      throw new Error(
+        "Failed to save score"
+      );
+    }
+
+  }catch(error){
+
+    throw error;
+  }
+}
+
+/* =========================
+   SHOW LEADERBOARD
+========================= */
+
+async function showLeaderboard(){
+
+  const list =document.getElementById( "leaderboardList");
+
+  try{
+
+    const response =
+    await fetch(API_URL);
+
+    if(!response.ok){
+
+      throw new Error(
+        "Failed to fetch leaderboard"
+      );
+    }
+
+    const scores =
+    await response.json();
+
+    if(scores.length === 0){
+
+      list.innerHTML ="<p>No scores yet 🎯</p>";
+
+      return;
+    }
+
+    scores.sort((a,b) => {
+
+      if(a.time !== b.time){
+
+        return a.time - b.time;
+      }
+
+      return a.moves - b.moves;
+    });
+
+    list.innerHTML =
+    scores.slice(0,10)
+    .map((score,index)=>
+
+      `
+      <p>
+        ${index + 1}.
+        ${score.playerName}
+        <br>
+        ⏱ ${score.time}s
+        •
+        🎯 ${score.moves}
+      </p>
+      `
+    ).join("");
+
+  }catch(error){
+
+    document.getElementById(
+      "errorMessage"
+    ).textContent =error.message;
+  }
+}
