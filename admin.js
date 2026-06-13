@@ -109,3 +109,52 @@ function renderTable(scores){
     `
   ).join("");
 }
+
+/* =========================
+   RENDER STATS
+========================= */
+
+function renderStats(scores){
+
+  document.getElementById(
+    "totalPlayers"
+  ).textContent =
+  scores.length;
+
+  const averageMoves =
+
+  scores.reduce(
+    (sum,score)=>
+
+    sum + score.moves,
+
+    0
+
+  ) / scores.length || 0;
+
+  document.getElementById(
+    "averageMoves"
+  ).textContent =
+  Math.round(averageMoves);
+
+  const bestTime =
+
+  scores.length > 0
+
+  ?
+
+  Math.min(
+    ...scores.map(
+      score => score.time
+    )
+  )
+
+  :
+
+  0;
+
+  document.getElementById(
+    "bestTime"
+  ).textContent =
+  bestTime;
+}
