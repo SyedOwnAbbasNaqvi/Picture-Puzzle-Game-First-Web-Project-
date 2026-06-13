@@ -53,3 +53,59 @@ async function loadScores(){
     `;
   }
 }
+/* =========================
+   RENDER TABLE
+========================= */
+
+function renderTable(scores){
+
+  tableBody.innerHTML =
+  scores.map(score =>
+
+    `
+    <tr>
+
+      <td>
+        ${score.playerName}
+      </td>
+
+      <td>
+        ${score.difficulty}
+      </td>
+
+      <td>
+        ${score.time}s
+      </td>
+
+      <td>
+        ${score.moves}
+      </td>
+
+      <td>
+        ${score.date}
+      </td>
+
+      <td>
+
+        <button
+        class="edit-btn"
+        onclick="editScore('${score.id}')">
+
+        Edit
+
+        </button>
+
+        <button
+        class="delete-btn"
+        onclick="deleteScore('${score.id}')">
+
+        Delete
+
+        </button>
+
+      </td>
+
+    </tr>
+    `
+  ).join("");
+}
