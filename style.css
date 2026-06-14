@@ -92,7 +92,7 @@ h1{
   );
 
   -webkit-background-clip:text;
-
+     background-clip: text;
   -webkit-text-fill-color:transparent;
 }
 
@@ -369,7 +369,7 @@ button{
 
   justify-content:center;
 
-  align-content:center;
+  align-content:start;
 
   padding:18px;
 
