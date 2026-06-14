@@ -201,3 +201,69 @@ async function deleteScore(id){
     alert(error.message);
   }
 }
+
+/* =========================
+   EDIT SCORE
+========================= */
+
+async function editScore(id){
+
+  const updatedName =
+  prompt(
+    "Enter updated player name:"
+  );
+
+  if(!updatedName){
+
+    return;
+  }
+
+  try{
+
+    const response =
+    await fetch(
+
+      `${API_URL}/${id}`,
+
+      {
+
+        method:"PATCH",
+
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
+
+        body:JSON.stringify({
+
+          playerName:
+          updatedName
+
+        })
+      }
+    );
+
+    if(!response.ok){
+
+      throw new Error(
+        "Update failed"
+      );
+    }
+
+    await loadScores();
+
+  }catch(error){
+
+    alert(error.message);
+  }
+}
+
+/* =========================
+   GLOBAL FUNCTIONS
+========================= */
+
+window.editScore =
+editScore;
+
+window.deleteScore =
+deleteScore;
