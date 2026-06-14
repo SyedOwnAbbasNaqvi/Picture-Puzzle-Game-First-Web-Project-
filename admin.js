@@ -158,3 +158,46 @@ function renderStats(scores){
   ).textContent =
   bestTime;
 }
+
+/* =========================
+   DELETE SCORE
+========================= */
+
+async function deleteScore(id){
+
+  const confirmDelete =
+  confirm(
+    "Delete this score?"
+  );
+
+  if(!confirmDelete){
+
+    return;
+  }
+
+  try{
+
+    const response =
+    await fetch(
+
+      `${API_URL}/${id}`,
+
+      {
+        method:"DELETE"
+      }
+    );
+
+    if(!response.ok){
+
+      throw new Error(
+        "Delete failed"
+      );
+    }
+
+    await loadScores();
+
+  }catch(error){
+
+    alert(error.message);
+  }
+}
